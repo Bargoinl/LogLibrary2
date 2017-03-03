@@ -1,18 +1,10 @@
 package com.octipas.applog;
 
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.octipas.loglibrary.LogUtil;
 import com.octipas.loglibrary.LogWebChromeClient;
@@ -22,10 +14,15 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+    //String FILENAME = "appLog.txt";
+    //File file;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //file = new File(Environment.getExternalStorageDirectory(), FILENAME);
 
         WebView myWebView = (WebView) findViewById(R.id.myWebView);
 
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         myWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        myWebView.addJavascriptInterface(new LogUtil(), "injectedObject");
+        myWebView.addJavascriptInterface(new LogUtil(MainActivity.this), "injectedObject");
 
         /* -- JS Error Inject -- */
         myWebView.evaluateJavascript("javascript:helloworld",null);
@@ -51,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //myWebView.loadUrl("http://seeninmovies.lukasbargoin.fr");
         //myWebView.loadUrl("http://lukasbargoin.xyz/web");
         myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
+        //myWebView.loadUrl("tout-debrid.net/index.php");
     }
 
 }

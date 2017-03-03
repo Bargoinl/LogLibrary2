@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class WriteLogTask extends AsyncTask<String, Integer, String > {
 
-        String FILENAME = "test.txt";
+        String FILENAME = "appLog.txt";
         File file = new File(Environment.getExternalStorageDirectory(), FILENAME);
 
         @Override
