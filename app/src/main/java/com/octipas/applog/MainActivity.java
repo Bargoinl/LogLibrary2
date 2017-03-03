@@ -3,6 +3,7 @@ package com.octipas.applog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import android.webkit.WebViewClient;
 import com.octipas.loglibrary.LogUtil;
 import com.octipas.loglibrary.LogWebChromeClient;
 import com.octipas.loglibrary.LogWebViewClient;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 

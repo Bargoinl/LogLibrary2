@@ -1,9 +1,14 @@
 package com.octipas.loglibrary;
 
+import android.os.Environment;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.io.File;
+
+import com.octipas.loglibrary.LogUtil;
 
 /**
  * Created by Lukas on 02/03/2017.
