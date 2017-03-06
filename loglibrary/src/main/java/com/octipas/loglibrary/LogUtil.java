@@ -1,6 +1,7 @@
 package com.octipas.loglibrary;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
@@ -11,11 +12,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -36,6 +35,7 @@ public class LogUtil {
         mContext = ctx;
         BufferedReader reader = null;
         injectedCode = "";
+        RegisterLogInDB();
         try {
             reader = new BufferedReader(
                     new InputStreamReader(mContext.getAssets().open("InjectCode.js"), "UTF-8"));
@@ -57,16 +57,10 @@ public class LogUtil {
         }
     }
 
-    @JavascriptInterface
-    public void sendLog(){
-        try {
+    public void RegisterLogInDB(){
             // Instantiate the RequestQueue.
             RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-            String url ="http://http://intranet.lukasbargoin.xyz/logLibraryScript/saveLog.php";
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("merchand_id", "1755");
-            jsonBody.put("logs", "test");
-            jsonBody.put("device_id", "toto");
+            String url ="http://intranet.lukasbargoin.xyz/logLibraryScript/saveLog.php";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -85,15 +79,13 @@ public class LogUtil {
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String, String>();
                     params.put("merchand_id","1755");
-                    params.put("logs","[HTTP ERROR] POST");
-                    params.put("device_id", "toto34");
+                    params.put("logs",readLogs());
+                    params.put("device_id", "device 34");
                     return params;
                 }
             };
             requestQueue.add(stringRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static String getInjectedCode() {
@@ -107,6 +99,28 @@ public class LogUtil {
     @JavascriptInterface
     public static void writeLog(String data) {
         new WriteLogTask().execute(data);
+    }
+
+    public String readLogs(){
+        StringBuilder logs = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(logFile));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                logs.append(line);
+                logs.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            Log.e("readLog",""+e.getMessage());
+        }
+        return logs.toString();
+    }
+
+    public void clearLogs(){
+
     }
 
 }
