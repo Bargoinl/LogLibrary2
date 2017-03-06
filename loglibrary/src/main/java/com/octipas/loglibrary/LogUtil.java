@@ -5,6 +5,7 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,8 +17,10 @@ public class LogUtil {
 
     private Context mContext;
     private static String injectedCode = null;
+    private static File logFile;
 
-    public LogUtil(Context ctx){
+    public LogUtil(Context ctx, File file){
+        logFile = file;
         mContext = ctx;
         BufferedReader reader = null;
         injectedCode = "";
@@ -43,6 +46,10 @@ public class LogUtil {
 
     public static String getInjectedCode() {
         return injectedCode;
+    }
+
+    public static File getLogFile() {
+        return logFile;
     }
 
     @JavascriptInterface

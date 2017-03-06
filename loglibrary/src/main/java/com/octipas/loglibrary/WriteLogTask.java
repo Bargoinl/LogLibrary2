@@ -15,8 +15,8 @@ import java.util.Date;
 
 public class WriteLogTask extends AsyncTask<String, Integer, String > {
 
-        String FILENAME = "appLog.txt";
-        File file = new File(Environment.getExternalStorageDirectory(), FILENAME);
+    //String FILENAME = "appLog.txt";
+    //File file = new File(Environment.getExternalStorageDirectory(), FILENAME);
 
     /**
      *
@@ -33,7 +33,7 @@ public class WriteLogTask extends AsyncTask<String, Integer, String > {
         String enter = "\n";
         FileWriter writer = null;
         try {
-            writer = new FileWriter(file, true);
+            writer = new FileWriter(LogUtil.getLogFile(), true);
             writer.append(getCurrentTimeStamp()+" ");
             writer.append(str[0].toString());
             writer.append(enter);

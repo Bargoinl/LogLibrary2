@@ -14,15 +14,15 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    //String FILENAME = "appLog.txt";
-    //File file;
+    String FILENAME = "myLog.txt";
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //file = new File(Environment.getExternalStorageDirectory(), FILENAME);
+        file = new File(Environment.getExternalStorageDirectory(), FILENAME);
 
         WebView myWebView = (WebView) findViewById(R.id.myWebView);
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         myWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        myWebView.addJavascriptInterface(new LogUtil(MainActivity.this), "injectedObject");
+        myWebView.addJavascriptInterface(new LogUtil(MainActivity.this, file), "injectedObject");
 
         /* -- JS Error Inject -- */
         myWebView.evaluateJavascript("javascript:helloworld",null);
