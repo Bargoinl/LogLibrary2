@@ -50,5 +50,4 @@ public class MainActivity extends AppCompatActivity {
         myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
         //myWebView.loadUrl("tout-debrid.net/index.php");
     }
-
 }

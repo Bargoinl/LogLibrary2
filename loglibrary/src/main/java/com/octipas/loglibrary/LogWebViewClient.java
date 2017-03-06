@@ -30,7 +30,7 @@ public class LogWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        view.loadUrl("javascript:(function() {"+ LogUtil.getInjectedCode() + "})()");
+        view.loadUrl("javascript:(function() {"+ LogUtil.getInjectedCode() + "})();");
     }
 
 }
