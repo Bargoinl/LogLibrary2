@@ -1,19 +1,10 @@
 package com.octipas.loglibrary;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import com.octipas.loglibrary.LogUtil;
 
 /**
  * Created by Lukas on 02/03/2017.
