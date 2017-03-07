@@ -1,6 +1,10 @@
 package com.octipas.loglibrary;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +35,9 @@ public class LogUtil {
     private static Context mContext;
     private static String injectedCode = null;
     private static File logFile;
+
+    private static int merchand_id;
+    private static String device_id;
 
     public LogUtil(Context ctx, File file){
         logFile = file;
@@ -80,22 +87,14 @@ public class LogUtil {
                 @Override
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String, String>();
-                    params.put("merchand_id","1755");
+                    params.put("merchand_id",String.valueOf(merchand_id));
                     params.put("logs",readLogs());
-                    params.put("device_id", "device 34");
+                    params.put("device_id", device_id);
                     return params;
                 }
             };
             requestQueue.add(stringRequest);
 
-    }
-
-    public static String getInjectedCode() {
-        return injectedCode;
-    }
-
-    public static File getLogFile() {
-        return logFile;
     }
 
     @JavascriptInterface
@@ -123,6 +122,46 @@ public class LogUtil {
 
     public static void clearLogs(){
         logFile.delete();
+    }
+
+    public static String getInjectedCode() {
+        return injectedCode;
+    }
+
+    public static File getLogFile() {
+        return logFile;
+    }
+
+    public static float getBatteryLevel() {
+        Intent batteryIntent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        // Error checking that probably isn't needed but I added just in case.
+        if(level == -1 || scale == -1) {
+            return 50.0f;
+        }
+        return ((float)level / (float)scale) * 100.0f;
+    }
+
+    public static double[] getMemoryInfo(){
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(mContext.ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        double availableMem = mi.availMem / 0x100000L;
+        double totalMem = mi.totalMem / 0x100000L;
+        double percentAvail = (mi.availMem / (double)mi.totalMem) * 100;
+
+        double[] memInfo = {availableMem,totalMem,percentAvail};
+        return memInfo;
+    }
+
+    public static void setDevice_id(String device_id) {
+        LogUtil.device_id = device_id;
+    }
+
+    public static void setMerchand_id(int merchand_id) {
+        LogUtil.merchand_id = merchand_id;
     }
 
 }

@@ -14,6 +14,8 @@ import com.octipas.loglibrary.LogWebChromeClient;
 import com.octipas.loglibrary.LogWebViewClient;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,18 +38,23 @@ public class MainActivity extends AppCompatActivity {
         myWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         myWebView.addJavascriptInterface(new LogUtil(MainActivity.this, file), "injectedObject");
+        LogUtil.setDevice_id("12ab342");
+        LogUtil.setMerchand_id(1755);
 
         /* -- JS Error Inject -- */
         myWebView.evaluateJavascript("javascript:helloworld",null);
 
         myWebView.setWebViewClient(new LogWebViewClient());
         myWebView.setWebChromeClient(new LogWebChromeClient());
+        Log.d("battery", ""+LogUtil.getBatteryLevel());
+        double[] test = LogUtil.getMemoryInfo();
+        Log.d("memory"," "+test[0]+" "+test[1]+" "+test[2]);
 
         myWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 LogUtil.RegisterLogInDB();
-                Toast.makeText(MainActivity.this, "futur action d'envoi de log",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Logs envoyés",Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -61,5 +68,30 @@ public class MainActivity extends AppCompatActivity {
         //myWebView.loadUrl("http://lukasbargoin.xyz/web");
         myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
         //myWebView.loadUrl("tout-debrid.net/index.php");
+
+        //Declare the timer
+        Timer to = new Timer();
+        //Set the schedule function and rate
+        to.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                double[] memInfo = LogUtil.getMemoryInfo();
+                String deviceInfo = "[DEVICE INFO]: battery="+LogUtil.getBatteryLevel()
+                        +"% available_memory="+memInfo[0]+"Mo "
+                        +"total_memory="+memInfo[1]+"Mo "
+                        +" percent_available_memory"+memInfo[2]+"% ";
+                LogUtil.writeLog(deviceInfo);
+                //Called each time when 1000 milliseconds (1 second) (the period parameter)
+                //put your code here
+            }
+
+        },
+        //Set how long before to start calling the TimerTask (in milliseconds)
+                0,
+        //Set the amount of time between each execution (in milliseconds)
+                60000*60);
+
     }
+
+
 }
