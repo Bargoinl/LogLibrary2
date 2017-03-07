@@ -3,8 +3,11 @@ package com.octipas.applog;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.octipas.loglibrary.LogUtil;
 import com.octipas.loglibrary.LogWebChromeClient;
@@ -39,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView.setWebViewClient(new LogWebViewClient());
         myWebView.setWebChromeClient(new LogWebChromeClient());
+
+        myWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                LogUtil.RegisterLogInDB();
+                Toast.makeText(MainActivity.this, "futur action d'envoi de log",Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
 
         /* ---- URL tests ---- */
         //myWebView.loadUrl("http://google.fr");

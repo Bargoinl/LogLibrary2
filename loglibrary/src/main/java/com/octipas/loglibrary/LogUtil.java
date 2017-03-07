@@ -3,7 +3,9 @@ package com.octipas.loglibrary;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,7 +28,7 @@ import java.util.Map;
 
 public class LogUtil {
 
-    private Context mContext;
+    private static Context mContext;
     private static String injectedCode = null;
     private static File logFile;
 
@@ -35,7 +37,6 @@ public class LogUtil {
         mContext = ctx;
         BufferedReader reader = null;
         injectedCode = "";
-        RegisterLogInDB();
         try {
             reader = new BufferedReader(
                     new InputStreamReader(mContext.getAssets().open("InjectCode.js"), "UTF-8"));
@@ -57,7 +58,7 @@ public class LogUtil {
         }
     }
 
-    public void RegisterLogInDB(){
+    public static void RegisterLogInDB(){
             // Instantiate the RequestQueue.
             RequestQueue requestQueue = Volley.newRequestQueue(mContext);
             String url ="http://intranet.lukasbargoin.xyz/logLibraryScript/saveLog.php";
@@ -66,6 +67,7 @@ public class LogUtil {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            LogUtil.clearLogs();
                             Log.d("responseListener", response);
                         }
                     },
@@ -101,7 +103,7 @@ public class LogUtil {
         new WriteLogTask().execute(data);
     }
 
-    public String readLogs(){
+    public static String readLogs(){
         StringBuilder logs = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(logFile));
@@ -119,8 +121,8 @@ public class LogUtil {
         return logs.toString();
     }
 
-    public void clearLogs(){
-
+    public static void clearLogs(){
+        logFile.delete();
     }
 
 }
