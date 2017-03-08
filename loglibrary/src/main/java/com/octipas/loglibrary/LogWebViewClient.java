@@ -2,7 +2,6 @@ package com.octipas.loglibrary;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;

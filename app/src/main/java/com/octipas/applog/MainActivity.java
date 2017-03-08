@@ -3,7 +3,6 @@ package com.octipas.applog;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -14,8 +13,6 @@ import com.octipas.loglibrary.LogWebChromeClient;
 import com.octipas.loglibrary.LogWebViewClient;
 
 import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         myWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        myWebView.addJavascriptInterface(new LogUtil(MainActivity.this, file), "injectedObject");
+        myWebView.addJavascriptInterface(new LogUtil(MainActivity.this, file, 60000), "injectedObject");
         LogUtil.setDevice_id("12ab342");
         LogUtil.setMerchand_id(1755);
 
@@ -46,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView.setWebViewClient(new LogWebViewClient());
         myWebView.setWebChromeClient(new LogWebChromeClient());
-        Log.d("battery", ""+LogUtil.getBatteryLevel());
-        double[] test = LogUtil.getMemoryInfo();
-        Log.d("memory"," "+test[0]+" "+test[1]+" "+test[2]);
 
         myWebView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

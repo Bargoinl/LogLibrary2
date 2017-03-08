@@ -36,17 +36,19 @@ public class LogUtil {
 
     private static int merchand_id;
     private static String device_id;
+    private int timerDeviceInfo = 3600000;
 
-    public LogUtil(Context ctx, File file){
+    public LogUtil(Context ctx, File file, int timerDeviceInfoTask){
         logFile = file;
         mContext = ctx;
         BufferedReader reader = null;
         injectedCode = "";
+        timerDeviceInfo = timerDeviceInfoTask;
 
         //Declare the timer
         Timer to = new Timer();
         //Set the schedule function and rate
-        to.scheduleAtFixedRate(new LogDeviceInfoTask(), 0, 3600000);
+        to.scheduleAtFixedRate(new LogDeviceInfoTask(), 0, timerDeviceInfo);
 
         try {
             reader = new BufferedReader(
