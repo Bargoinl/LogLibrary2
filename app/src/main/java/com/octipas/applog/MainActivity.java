@@ -60,15 +60,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* ---- URL tests ---- */
-        //myWebView.loadUrl("http://google.fr");
+        myWebView.loadUrl("http://google.fr");
         //myWebView.loadUrl("http://fghsdbfjgbfdsjkbgqjs.fr");
         //myWebView.loadUrl("https://fr.wikipedia.org/404");
         //myWebView.loadUrl("http://octipas.com/");
         //myWebView.loadUrl("http://seeninmovies.lukasbargoin.fr");
         //myWebView.loadUrl("http://lukasbargoin.xyz/web");
         //myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
-        myWebView.loadUrl("http://tout-debrid.net/index.php"); //timeout
+        //myWebView.loadUrl("http://tout-debrid.net/index.php"); //timeout
         //myWebView.loadUrl("tout-debrid.net/index.php");
+        //myWebView.loadUrl("http://dev.chez-syl.fr/article_jquery_ajax/"); //FORM ajax
+        //myWebView.loadUrl("https://www.devbridge.com/sourcery/components/jquery-autocomplete/");
 
     }
 
