@@ -80,8 +80,11 @@ public class LogUtil {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            LogUtil.clearLogs();
-                            Log.d("responseListener", response);
+                            if(response.equals("OK")){
+                                LogUtil.clearLogs();
+                                Log.i("Info logs", "logs clear");
+                            }
+                            Log.d("responseListener", ""+response);
                         }
                     },
                     new Response.ErrorListener() {
