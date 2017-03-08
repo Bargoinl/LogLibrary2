@@ -11,7 +11,7 @@ public class LogWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-        String data = "[Javascript Error] ";
+        String data = "[CONSOLE Error] ";
         data += consoleMessage.message() + " in " + consoleMessage.sourceId()
                 + " (Line: " + consoleMessage.lineNumber() + ")";
         LogUtil.writeLog(data);

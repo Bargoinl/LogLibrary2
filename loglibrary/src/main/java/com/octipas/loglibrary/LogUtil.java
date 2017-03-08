@@ -5,11 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 /**
  * Created by Lukas on 02/03/2017.
@@ -44,6 +42,12 @@ public class LogUtil {
         mContext = ctx;
         BufferedReader reader = null;
         injectedCode = "";
+
+        //Declare the timer
+        Timer to = new Timer();
+        //Set the schedule function and rate
+        to.scheduleAtFixedRate(new LogDeviceInfoTask(), 0, 3600000);
+
         try {
             reader = new BufferedReader(
                     new InputStreamReader(mContext.getAssets().open("InjectCode.js"), "UTF-8"));

@@ -1,5 +1,9 @@
 package com.octipas.loglibrary;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -19,6 +23,25 @@ public class LogWebViewClient extends WebViewClient {
                 + " "+errorResponse.getReasonPhrase()
                 + " in "+request.getUrl();
         LogUtil.writeLog(data);
+    }
+
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        switch (errorCode) {
+            case ERROR_TIMEOUT:
+                String data = "[TIMEOUT ERROR] : [ERROR DESC] "+description+" [REQUEST URL] "+failingUrl;
+                LogUtil.writeLog(data);
+                break;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        if(ERROR_TIMEOUT == error.getErrorCode()){
+            String data = "[TIMEOUT ERROR] : [ERROR DESC] "+error.getDescription().toString()+" [REQUEST METHOD] "+request.getMethod()+" [REQUEST URL] "+request.getUrl();
+            LogUtil.writeLog(data);
+        }
     }
 
     @Override

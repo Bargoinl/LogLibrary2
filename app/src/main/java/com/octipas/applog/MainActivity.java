@@ -66,30 +66,9 @@ public class MainActivity extends AppCompatActivity {
         //myWebView.loadUrl("http://octipas.com/");
         //myWebView.loadUrl("http://seeninmovies.lukasbargoin.fr");
         //myWebView.loadUrl("http://lukasbargoin.xyz/web");
-        myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
+        //myWebView.loadUrl("http://intranet.lukasbargoin.xyz/ajax.html");
+        myWebView.loadUrl("http://tout-debrid.net/index.php"); //timeout
         //myWebView.loadUrl("tout-debrid.net/index.php");
-
-        //Declare the timer
-        Timer to = new Timer();
-        //Set the schedule function and rate
-        to.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                double[] memInfo = LogUtil.getMemoryInfo();
-                String deviceInfo = "[DEVICE INFO]: battery="+LogUtil.getBatteryLevel()
-                        +"% available_memory="+memInfo[0]+"Mo "
-                        +"total_memory="+memInfo[1]+"Mo "
-                        +" percent_available_memory"+memInfo[2]+"% ";
-                LogUtil.writeLog(deviceInfo);
-                //Called each time when 1000 milliseconds (1 second) (the period parameter)
-                //put your code here
-            }
-
-        },
-        //Set how long before to start calling the TimerTask (in milliseconds)
-                0,
-        //Set the amount of time between each execution (in milliseconds)
-                60000*60);
 
     }
 
