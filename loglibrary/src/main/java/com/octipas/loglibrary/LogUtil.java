@@ -36,8 +36,18 @@ public class LogUtil {
 
     private static int merchand_id;
     private static String device_id;
+    /**
+     * delay in millisecond between each write of device info in logs
+     * by default 1 hour
+     */
     private int timerDeviceInfo = 3600000;
 
+    /**
+     * Constructor for logUtil class
+     * @param ctx app context
+     * @param file the log backup file
+     * @param timerDeviceInfoTask delay in millisecond between each write of device info in logs
+     */
     public LogUtil(Context ctx, File file, int timerDeviceInfoTask){
         logFile = file;
         mContext = ctx;
@@ -71,10 +81,14 @@ public class LogUtil {
         }
     }
 
+    /**
+     * Sends logs to script php for the save in DB
+     * Local logs file is deleted if insertion is done
+     */
     public static void RegisterLogInDB(){
             // Instantiate the RequestQueue.
             RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-            String url ="http://intranet.lukasbargoin.xyz/logLibraryScript/saveLog.php";
+            String url ="http://intranet.lukasbargoin.xyz/octipas/logLibrary/script/saveLog.php";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -111,6 +125,10 @@ public class LogUtil {
         new WriteLogTask().execute(data);
     }
 
+    /**
+     * Read logs from files
+     * @return a string containing logs
+     */
     public static String readLogs(){
         StringBuilder logs = new StringBuilder();
         try {
@@ -129,18 +147,33 @@ public class LogUtil {
         return logs.toString();
     }
 
+    /**
+     * Delete local logs file
+     */
     public static void clearLogs(){
         logFile.delete();
     }
 
+    /**
+     *
+     * @return a string containing js code to inject in the webView
+     */
     public static String getInjectedCode() {
         return injectedCode;
     }
 
+    /**
+     *
+     * @return local logs file
+     */
     public static File getLogFile() {
         return logFile;
     }
 
+    /**
+     *
+     * @return battery level in percent
+     */
     public static float getBatteryLevel() {
         Intent batteryIntent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -153,6 +186,10 @@ public class LogUtil {
         return ((float)level / (float)scale) * 100.0f;
     }
 
+    /**
+     *
+     * @returna a double-type table containing device info
+     */
     public static double[] getMemoryInfo(){
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(mContext.ACTIVITY_SERVICE);
@@ -165,10 +202,18 @@ public class LogUtil {
         return memInfo;
     }
 
+    /**
+     * Allow to modify the identifier of the phone/tablet
+     * @param device_id phone/tablet identifier
+     */
     public static void setDevice_id(String device_id) {
         LogUtil.device_id = device_id;
     }
 
+    /**
+     * Allow to modify the identifiant of the merchand.
+     * @param merchand_id merchand identifier
+     */
     public static void setMerchand_id(int merchand_id) {
         LogUtil.merchand_id = merchand_id;
     }

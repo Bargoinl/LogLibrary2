@@ -15,12 +15,9 @@ import java.util.Date;
 
 public class WriteLogTask extends AsyncTask<String, Integer, String > {
 
-    //String FILENAME = "appLog.txt";
-    //File file = new File(Environment.getExternalStorageDirectory(), FILENAME);
-
     /**
      *
-     * @return
+     * @return the current TimeStamp
      */
     public static String getCurrentTimeStamp(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
